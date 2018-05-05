@@ -9,13 +9,19 @@ class ProjectController extends Controller
 {
     public function index()
     {
-        $projects = Project::orderBy('created_at', 'desc')
-                            ->with(['tasks' => function ($query) {
+        return view('projects.index');
+    }
+
+    public function fetchProjects()
+    {
+        $projects = Project::where('is_completed', false)
+                            ->orderBy('created_at', 'desc')
+                            ->withCount(['tasks' => function ($query) {
                                 $query->where('is_completed', false);
                             }])
                             ->get();
 
-        return view('projects.index', compact('projects'));
+        return $projects->toJson();
     }
 
     public function create()
