@@ -11,11 +11,6 @@
 |
 */
 
-Route::get('/', 'ProjectController@index');
-Route::get('projects', 'ProjectController@fetchProjects');
-Route::get('projects/create', 'ProjectController@create');
-Route::post('projects', 'ProjectController@store');
-Route::get('projects/{id}', 'ProjectController@show');
-Route::put('projects/{project}', 'ProjectController@markAsCompleted');
-
-Route::post('tasks', 'TaskController@store');
+Route::get('/', function () {
+    return view('welcome');
+});
