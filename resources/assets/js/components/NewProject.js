@@ -1,10 +1,9 @@
-import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
 import axios from 'axios'
+import React, { Component } from 'react'
 
-export default class NewProject extends Component {
-  constructor () {
-    super()
+class NewProject extends Component {
+  constructor (props) {
+    super(props)
 
     this.state = {
       name: '',
@@ -12,20 +11,22 @@ export default class NewProject extends Component {
       errors: []
     }
 
-    this.handleChange = this.handleChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleFieldChange = this.handleFieldChange.bind(this)
+    this.handleCreateNewProject = this.handleCreateNewProject.bind(this)
     this.hasErrorFor = this.hasErrorFor.bind(this)
     this.renderErrorFor = this.renderErrorFor.bind(this)
   }
 
-  handleChange (event) {
+  handleFieldChange (event) {
     this.setState({
       [event.target.name]: event.target.value
     })
   }
 
-  handleSubmit (event) {
+  handleCreateNewProject (event) {
     event.preventDefault()
+
+    const { history } = this.props
 
     const project = {
       name: this.state.name,
@@ -33,10 +34,10 @@ export default class NewProject extends Component {
     }
 
     axios
-      .post('/projects', project)
+      .post('/api/projects', project)
       .then(response => {
         // redirect to the homepage
-        window.location = '/'
+        history.push('/')
       })
       .catch(error => {
         this.setState({
@@ -61,47 +62,53 @@ export default class NewProject extends Component {
 
   render () {
     return (
-      <div className='card'>
-        <div className='card-header'>Create new project</div>
+      <div className='container py-4'>
+        <div className='row justify-content-center'>
+          <div className='col-md-6'>
+            <div className='card'>
+              <div className='card-header'>Create new project</div>
 
-        <div className='card-body'>
+              <div className='card-body'>
 
-          <form onSubmit={this.handleSubmit}>
+                <form onSubmit={this.handleCreateNewProject}>
 
-            <div className='form-group'>
-              <label htmlFor='name'>Project name</label>
-              <input
-                id='name'
-                type='text'
-                className={`form-control ${this.hasErrorFor('name') ? 'is-invalid' : ''}`}
-                name='name'
-                onChange={this.handleChange}
-              />
-              {this.renderErrorFor('name')}
+                  <div className='form-group'>
+                    <label htmlFor='name'>Project name</label>
+                    <input
+                      id='name'
+                      type='text'
+                      className={`form-control ${this.hasErrorFor('name') ? 'is-invalid' : ''}`}
+                      name='name'
+                      value={this.state.name}
+                      onChange={this.handleFieldChange}
+                    />
+                    {this.renderErrorFor('name')}
+                  </div>
+
+                  <div className='form-group'>
+                    <label htmlFor='description'>Project description</label>
+                    <textarea
+                      id='description'
+                      className={`form-control ${this.hasErrorFor('description') ? 'is-invalid' : ''}`}
+                      name='description'
+                      rows='10'
+                      value={this.state.description}
+                      onChange={this.handleFieldChange}
+                    />
+
+                    {this.renderErrorFor('description')}
+                  </div>
+
+                  <button className='btn btn-primary'>Create</button>
+                </form>
+
+              </div>
             </div>
-
-            <div className='form-group'>
-              <label htmlFor='description'>Project description</label>
-              <textarea
-                id='description'
-                className={`form-control ${this.hasErrorFor('description') ? 'is-invalid' : ''}`}
-                name='description'
-                rows='10'
-                onChange={this.handleChange}
-              />
-
-              {this.renderErrorFor('description')}
-            </div>
-
-            <button className='btn btn-primary'>Create</button>
-          </form>
-
+          </div>
         </div>
       </div>
     )
   }
 }
 
-if (document.getElementById('new-project')) {
-  ReactDOM.render(<NewProject />, document.getElementById('new-project'))
-}
+export default NewProject

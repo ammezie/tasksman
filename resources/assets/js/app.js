@@ -12,5 +12,4 @@ require('./bootstrap')
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-require('./components/ProjectsList')
-require('./components/NewProject')
+require('./components/App')
