@@ -1,5 +1,5 @@
-import axios from 'axios'
-import React, { Component } from 'react'
+import axios from 'axios';
+import React, { Component } from 'react';
 
 class SingleProject extends Component {
   constructor (props) {
@@ -132,11 +132,11 @@ class SingleProject extends Component {
                     />
 
                     <div className='input-group-append'>
-                      <button className='btn btn-primary'> Add </button>{' '}
+                      <button className='btn btn-primary'>Add</button>
                     </div>
 
-                    {this.renderErrorFor('title')}{' '}
-                  </div>{' '}
+                    {this.renderErrorFor('title')}
+                  </div>
                 </form>
 
                 <ul className='list-group mt-3'>
